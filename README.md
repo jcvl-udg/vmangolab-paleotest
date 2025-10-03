@@ -1,6 +1,6 @@
 # vmango-lab
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fredboudon/vmango-lab/main?urlpath=lab/tree/notebooks/vmango.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jcvl-udg/vmangolab-paleotest/main?urlpath=lab/tree/notebooks/vmango.ipynb)
 
 vmango-lab is a library and an environment for the simulation and analysis of mango tree growth, development, fruit production and architecture. vmango-lab is a reimplementation and extension of the V-Mango<sup>[1](#Boudon_2020)</sup> model in pure Python that allows both inspection, drafting, execution and visualization of models composed of processes within Jupyter notebooks.
 
