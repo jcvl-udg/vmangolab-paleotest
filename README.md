@@ -1,7 +1,9 @@
 # vmango-lab-paleotest
 
 - click to play!
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jcvl-udg/vmangolab-paleotest/main?urlpath=lab/tree/notebooks/vmango.ipynb)
+
+    - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jcvl-udg/vmangolab-paleotest/main?urlpath=lab/tree/notebooks/vmango.ipynb)
+---
 
 La extension **PaleoTest** , esta pensada para realizar modelos paleobotanicos mediante la simulacion de agentes/plantas a traves de 
 modelos inspirados en las tecnicas:
@@ -13,15 +15,18 @@ desde la interfaz de `vmlab` (e.g. `vmlab.create_setup` & `vmlab.run`) , tambien
 
 ![Mango Tree|512x397](doc/img/mango-tree.png)
 
-El [README original](https://github.com/jvail/vmango-lab) ademas de algunos ejemplos de otras <Funciones de alto nivel> y de configuraciones para el modelo se encuentra en el repositorio forkeado.
+El [README original](https://github.com/jvail/vmango-lab) ademas de algunos ejemplos de otras "Funciones de alto nivel"
+y de configuraciones para el modelo se encuentra en el repositorio forkeado.
 
+---
 En este caso especifico se busca modelar la especie **Fagaceae (Quercus)** de la que se tiene registro en multiples investigaciones.
-![Quercus Fosil|720x520](doc/img/Olmos_Quercus.webp)
+
+![Quercus Fosil|800x520](doc/img/Olmos_Quercus.webp)
 
 
-Ademas se construlle este primer acercamiento pensando en la menor cantidad de modificaciones al modelo base(Mango), 
+Ademas se construye este primer acercamiento pensando en la menor cantidad de modificaciones al modelo base(Mango), 
 la simulacion de este arbol de bellotas (Quercus: encinas, robles, quejigos y alcornoques) busca un acercamiento
-cientificamente informado pra la generacion del modelo.
+cientificamente informado para la generacion del modelo.
 ![Grafo de Classes/Modulos|800x500](doc/img/graph.png)
 
 ### Formacion Paleobotánica Olmos (Coahuila,México)
