@@ -1,152 +1,157 @@
-# vmango-lab
+# vmango-lab-paleotest
 
+- click to play!
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jcvl-udg/vmangolab-paleotest/main?urlpath=lab/tree/notebooks/vmango.ipynb)
 
-vmango-lab is a library and an environment for the simulation and analysis of mango tree growth, development, fruit production and architecture. vmango-lab is a reimplementation and extension of the V-Mango<sup>[1](#Boudon_2020)</sup> model in pure Python that allows both inspection, drafting, execution and visualization of models composed of processes within Jupyter notebooks.
+La extension **PaleoTest** , esta pensada para realizar modelos paleobotanicos mediante la simulacion de agentes/plantas a traves de 
+modelos inspirados en las tecnicas:
+- Pariente Vivo más Cercano (PVC)
+- Aproximación Morfológico Estructural (AME)
 
-![Mango Tree](doc/img/mango-tree.png)
+vamango-lab<sup>[1](#Vaillant_2022)</sup>es un entorno para simulacion y analisis de crecimiento, desarrollo, produccion frutal y arquitectura de arboles de mango siendo una extension del modelo V-Mango<sup>[2](#Boudon_2020)</sup> desarrollado en Python mediante xarray-simlab<sup>[3](#xarray-simlab_2019)</sup>, la arquitectura del modelo construye y reimplementa funciones de alto-nivel buscando que el usuario use el modelo
+desde la interfaz de `vmlab` (e.g. `vmlab.create_setup` & `vmlab.run`) , tambien cuenta con un modulo de paralelizacion configurado.
 
-### Cite
+![Mango Tree|512x397](doc/img/mango-tree.png)
 
-Jan Vaillant, Isabelle Grechi, Frédéric Normand, Frédéric Boudon, Towards virtual modelling environments for functional–structural plant models based on Jupyter notebooks: application to the modelling of mango tree growth and development, in silico Plants, Volume 4, Issue 1, 2022, diab040, https://doi.org/10.1093/insilicoplants/diab040
+El [README original](https://github.com/jvail/vmango-lab) ademas de algunos ejemplos de otras <Funciones de alto nivel> y de configuraciones para el modelo se encuentra en el repositorio forkeado.
+
+En este caso especifico se busca modelar la especie **Fagaceae (Quercus)** de la que se tiene registro en multiples investigaciones.
+![Quercus Fosil|720x520](doc/img/Olmos_Quercus.webp)
 
 
-vmango-lab (vmlab) is built with xarray-simlab (xsimlab v0.5.0, https://xarray-simlab.readthedocs.io/en/latest/), an extension of xarray. Therefore most parts of the documentation provided by xsimlab applies also to vmlab  - except some difference highlighted below:
+Ademas se construlle este primer acercamiento pensando en la menor cantidad de modificaciones al modelo base(Mango), 
+la simulacion de este arbol de bellotas (Quercus: encinas, robles, quejigos y alcornoques) busca un acercamiento
+cientificamente informado pra la generacion del modelo.
+![Grafo de Classes/Modulos|800x500](doc/img/graph.png)
 
-Due to specific requirements of vmlab the library reimplements some top-level functions of xsimlab. All related to the creation and execution of a model. Therefore the user must use the `vmlab.create_setup` and `vmlab.run` functions (see doc strings) provided by the library rather than using those with identical names implemented in xsimlab.
-The parallelization (both single and multi-model processing) provided by xsimlab can not be used within vmlab. vmlab implements its own multi-processing parallelization that is accessible via the vmlab.run function.
+### Formacion Paleobotánica Olmos (Coahuila,México)
 
-### Other top-level functions
+[Formación Olmos - COAH](https://paleobiologia.wixsite.com/evolucionplantae/formacion-olmos)
 
-`vmlab.get_vars_from_model(model, process_filter)`
+[Inferencia del clima y elevación de la formación Olmos, Coahuila,México, del Cretácico tardío (Maestrichtiano) mediante lafisonomía de hojas fósiles y determinación de nuevo material](https://ru.dgb.unam.mx/server/api/core/bitstreams/b2b42bce-4593-4417-a6f2-dd6d3c89fff2/content)
 
-Builds an output_vars style dictionary if one wants to export all variables of a process.
+[Síntesis de los trabajos paleobotánicos del Cretácico en México](https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1405-33222014000100009)
 
-`vmlab.check_graph(graph)`
+[Flora and climate of the Olmos Formation (upper Campanian–lower Maastrichtian), Coahuila, Mexico: a preliminary report](https://www.academia.edu/2103322/Flora_and_climate_of_the_Olmos_Formation_upper_Campanian_lower_Maastrichtian_Coahuila_Mexico_a_preliminary_report)
 
-Takes an igraph object and tests if it is valid to be used as an input tree for vmlab.
-
-`vmlab.to_graph(dataframe)`
-
-Takes a pandas DataFrame and builds and returns an igraph object.
-
-`vmlab.to_dataframe(graph)`
-
-Takes an igraph object and builds and returns a pandas DataFrame.
-
-## Examples
-
-There are plenty of examples covering many use cases of vmlab available in the notebooks folder. Additionally there is a cookbook section, code snippet library with code to exemplify the usage of some more developer related features like subclassing, working with igraph trees, persistence and plotting. A minimal example below:
-
-```python
-import vmlab
-from vmlab.models import vmango
-
-setup = vmlab.create_setup(
-    model=vmango,
-    start_date='2003-06-01',
-    end_date='2004-06-01',
-    setup_toml='vmango.toml',
-    input_vars={
-        'geometry__interpretation_freq': 7
-    },
-    output_vars={
-        'harvest__nb_fruit_harvested': None
-    }
-)
-
-ds = vmlab.run(setup, vmango)
-
-```
-
-## Model input
-
-Model input is structured into
-- a top-level toml file that defines inputs for each process (examples in `vmlab/data/setup`)
-- a toml file for each process (quasi constant parameters and other input files like weather data (examples in `vmlab/data/parameters`)
-- values directly provided via the `input_vars` dictionary passed to the `vmlab.create_setup` function (`in` or `inout` variables in a process)
-- An inital tree (topology) either passed directly into the `vmlab.create_setup` function as a pandas DataFrame or referenced as a csv file within the main toml file. Simple example of an inital tree:
-
-```python
-dataframe = pandas.read_csv(
-io.StringIO("""
-id,parent_id,topology__is_apical
-0,NA,1
-1,0,1
-2,0,0
-"""))
-graph = vmlab.to_graph(dataframe)
-layout = graph.layout_reingold_tilford()
-layout.rotate(180)
-igraph.plot(graph, layout=layout, bbox=(100, 100))
-```
-
-![Mango Tree](doc/img/simple-tree-graph.svg)
-
-## Useful resources for important dependencies of vmlab
-
-- xsimlab (v0.5.0): https://xarray-simlab.readthedocs.io/en/latest/
-- xarray: http://xarray.pydata.org/en/stable/index.html
-- igraph: https://igraph.org/python/
-- scipy.sparse.csgraph: https://docs.scipy.org/doc/scipy/reference/sparse.csgraph.html#module-scipy.sparse.csgraph
+[PaleobotánicaParaentenderlaevoluciónylabiodiversidaden México](https://www.botanicalsciences.com.mx/index.php/botanicalSciences/article/view/3122/4778)
 
 ## Installation
 
-### For users with some Python and conda experience
+### Para usuarion con Conda instalado
 
-Clone repository and create and activate the conda environment.
-This will also create a development install of vmango-lab:
-
-```bash
-conda env create -f binder/environment.yml
-conda activate vmango-lab
-```
-
-### From absolute zero to vmango-lab (windows 10)
-
-#### Download
-
-- miniconda https://docs.conda.io/en/latest/miniconda.html
-- git https://git-scm.com/download/win
-- vscode https://code.visualstudio.com/download
-
-You may also install TortoiseGit to have simpler access to git from your file explorer:
-
-- TortoiseGit https://tortoisegit.org/download/
-
-
-#### Install
-
-Run all installers (if you are unsure just use the default options)
-Open vscode and open the default terminal available in vscode
-run the following commands from the terminal one after the other.
+Recomiendo el uso de Anaconda Navigator, esto facilita es uso de entornos aislados:
 
 ```bash
 git clone https://github.com/fredboudon/vmango-lab.git
 cd vmango-lab
-```
-You need then to install Python extension, then in the 'View' menu, select 'Command Palette', Type 'Python: Select interpreter', select 'base'.
-
-```bash
 conda env create -f binder/environment.yml
 conda activate vmango-lab
 ```
 
-#### Run Jupyter
-
-If all goes well you can run Jupyter from the vscode terminal (with the vmango-lab conda environment being active)
-
-```bash
-jupyter lab
-# or
-jupyter notebook
-```
-
-You will find several notebook examples in the vmango-lab/notebooks
-
-You can run directly notebooks from vscode. For this you need to install Jupyter extension, then with the 'Command Palette', Type 'Jupyter: Select Interpreter to start Jupyter server', select vmango-lab and then open the notebooks.
-To use vmango-lab env in the python shell, you can also type in the 'Command Palette', 'Python: Select interpreter' and select 'vmango-lab'.
-
+## Useful resources for important dependencies of vmlab
+- [xsimlab (v0.5.0):](https://xarray-simlab.readthedocs.io/en/latest/)https://xarray-simlab.readthedocs.io/en/latest/
+- [xarray:](http://xarray.pydata.org/en/stable/index.html)http://xarray.pydata.org/en/stable/index.html
+- [igraph:](https://igraph.org/python/)https://igraph.org/python/
+- [scipy.sparse.csgraph:](https://docs.scipy.org/doc/scipy/reference/sparse.csgraph.html#module-scipy.sparse.csgraph)https://docs.scipy.org/doc/scipy/reference/sparse.csgraph.html#module-scipy.sparse.csgraph
 
 ---
-<a name="Boudon_2020">1</a> Frédéric Boudon et al. V-Mango: a functional–structural model of mango tree growth, development and fruit production, Annals of Botany, Volume 126, Issue 4, 14 September 2020, Pages 745–763
+<a name="Vaillant_2022">1</a>Jan Vaillant, Isabelle Grechi, Frédéric Normand, Frédéric Boudon, Towards virtual modelling environments for functional–structural plant models based on Jupyter notebooks: application to the modelling of mango tree growth and development, in silico Plants, Volume 4, Issue 1, 2022, diab040, https://doi.org/10.1093/insilicoplants/diab040
+
+<a name="Boudon_2020">2</a> Frédéric Boudon et al. V-Mango: a functional–structural model of mango tree growth, development and fruit production, Annals of Botany, Volume 126, Issue 4, 14 September 2020, Pages 745–763
+
+<a name="xarray-simlab_2019">3</a> Kaandorp, V.P., Doornenbal, P.J., Kooi, H., Peter Broers, H., de Louw, P.G.B., 2019. Temperature buffering by groundwater in ecologically valuable lowland streams under current and future climate conditions. Journal of Hydrology X 3, 100031. https://doi.org/10.1016/j.hydroa.2019.100031
+
+
+## Referencias
+[Relevance of the Coal Mining Deposits and the Olmos Formation in NE Mexico to Geoheritage: Scientific, Geological and Educational Attributes that Highlight its Conservation](https://link.springer.com/article/10.1007/s12371-025-01071-y)
+
+
+```
+[1] Plantas fósiles e inferencia paleoclimática: aproximaciones metodológicas 
+y algunos ejemplos para México
+
+Hugo I. Martínez-Cabrera 
+José L. Ramírez-Garduño2
+Emilio Estrada-Ruiz
+
+Boletín de la Sociedad Geológica Mexicana
+Volumen 66, núm. 1, 2014, p. 41-52
+```
+
+
+```
+[2] Modelling the Plants and Ecosystem of the Rhynie Chert (2015)
+Mark Kolesza
+UNIVERSITY OF CALGARY
+```
+
+```
+[3] The Algorithmic Beauty of Plants
+- Przemyslaw Prusinkiewicz
+- Aristid Lindenmayer
+
+With:
+James S. Hanan
+F. David Fracchia
+Deborah Fowler
+Martin J. M. de Boer
+Lynn Mercer
+```
+
+```
+[4] Visual models of plant development (1996)
+Przemyslaw Prusinkiewicz, Mark Hammel, Jim Hananz, and Radomir Mech
+Department of Computer Science University of Calgary
+Calgary, Alberta, Canada
+zCSIRO - Cooperative Research Centre for Tropical Pest Management
+Springer-Verlag 1996
+```
+
+```
+Using L−Systems for Modeling the Architecture and Physiology of Growing Trees: 
+The L−PEACH Model Mitch Allen (2004)
+
+Przemyslaw Prusinkiewicz
+Theodore DeJong
+
+Department of Pomology, University of California, Davis
+Department of Computer Science, University of Calgary
+```
+
+```
+V-Mango: a functional–structural model of mango tree growth, development and fruit production 
+Annals of Botany, Volume 126, Issue 4, 14 September 2020, Pages 745–763, https://doi.org/10.1093/aob/mcaa089
+```
+
+[Fossil Plants as Tests of Climate (Albert Charles Seward) - Sedgwick Essay Prize for the Year 1892](https://github.com/manjunath5496/Paleobotany-Books/blob/master/pale(3).pdf)
+
+
+---sin acceso(?)
+Paratropical rainforest from the Olmos Formation (upper Campanian), Coahuila, Mexico
+Author links open overlay panel
+https://www.sciencedirect.com/science/article/abs/pii/S0195667123003415
+
+
+### Guias Paleobotany
+
+- [Extinct_plants](https://github.com/PaleoNate/extinct_plants)
+
+This is a place for the paleobotany and paleo-art communities to find references to papers with illustrations of extinct plants.
+
+- [Paleobotanical-3D-reconstruction-guides Public](https://github.com/robertlmenning/Paleobotanical-3D-reconstruction-guides)
+
+Paleobotany focused guides for segmenting, editing, and animating 3D reconstructions of plant fossils
+
+- [Paleobotany-Books](https://github.com/manjunath5496/Paleobotany-Books)
+
+"Now, evolution is the substance of fossils hoped for, the evidence of links not seen." ― Duane T. Gish
+
+- [Paleobotany_research](https://github.com/BenjaminVanOttenberg/paleobotany_research)
+
+### PaleoBioDB
+[ThePaleobiology Database](https://paleobiodb.org/#/)
+[Family Nelumbonaceae Richard 1827 (lotus)](https://paleobiodb.org/classic/basicTaxonInfo?taxon_no=txn:55399)
+
+
+[SYNTHESYS+](https://www.synthesys.info/)
