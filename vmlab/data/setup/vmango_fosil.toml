@@ -4,7 +4,7 @@ initial_tree = '../trees/tree_B10_cycle_030405.csv'
 
 [parameters]
 topology = '../parameters/topology.toml'
-environment = '../parameters/fosil.toml'
+environment = '../quercus_parameters/fosil.toml'
 phenology = '../parameters/phenology.toml'
 growth = '../parameters/growth.toml'
 appearance = '../parameters/growth.toml'
