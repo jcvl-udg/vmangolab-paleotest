@@ -1,0 +1,882 @@
+{
+    "schema": "lpy",
+    "version": "1.0",
+    "options": {},
+    "materials": [
+        {
+            "type": "Material",
+            "id": 2223736987136,
+            "ambient": [
+                30,
+                60,
+                10
+            ],
+            "diffuse": 3.0,
+            "shininess": 0.0,
+            "name": "Color_0",
+            "index": 0
+        },
+        {
+            "type": "Material",
+            "id": 2223736986880,
+            "ambient": [
+                60,
+                0,
+                0
+            ],
+            "diffuse": 3.0,
+            "shininess": 0.0,
+            "name": "Color_1",
+            "index": 1
+        },
+        {
+            "type": "Material",
+            "id": 2223736986496,
+            "ambient": [
+                60,
+                60,
+                15
+            ],
+            "diffuse": 3.0,
+            "shininess": 0.0,
+            "name": "Color_2",
+            "index": 2
+        },
+        {
+            "type": "Material",
+            "id": 2223736992384,
+            "ambient": [
+                0,
+                0,
+                60
+            ],
+            "diffuse": 3.0,
+            "shininess": 0.0,
+            "name": "Color_3",
+            "index": 3
+        },
+        {
+            "type": "Material",
+            "id": 2223736991872,
+            "ambient": [
+                51,
+                50,
+                16
+            ],
+            "diffuse": 1.76471,
+            "shininess": 0.0,
+            "name": "Color_5",
+            "index": 5
+        },
+        {
+            "type": "Material",
+            "id": 2223736986752,
+            "ambient": [
+                71,
+                91,
+                46
+            ],
+            "diffuse": 1.67033,
+            "shininess": 0.0,
+            "name": "Color_6",
+            "index": 6
+        },
+        {
+            "type": "Material",
+            "id": 2223736992768,
+            "name": "Color_10",
+            "index": 7
+        },
+        {
+            "type": "Material",
+            "id": 2223736987008,
+            "name": "Color_10",
+            "index": 8
+        },
+        {
+            "type": "Material",
+            "id": 2223736993280,
+            "name": "Color_10",
+            "index": 9
+        },
+        {
+            "type": "Material",
+            "id": 2223736992896,
+            "ambient": [
+                71,
+                91,
+                46
+            ],
+            "diffuse": 1.67033,
+            "shininess": 0.0,
+            "name": "Color_10",
+            "index": 10
+        },
+        {
+            "type": "Material",
+            "id": 2223736990720,
+            "ambient": [
+                71,
+                91,
+                46
+            ],
+            "diffuse": 1.67033,
+            "shininess": 0.0,
+            "name": "Color_11",
+            "index": 11
+        },
+        {
+            "type": "Material",
+            "id": 2223736993024,
+            "ambient": [
+                63,
+                42,
+                20
+            ],
+            "diffuse": 1.67033,
+            "shininess": 0.0,
+            "name": "Color_12",
+            "index": 12
+        },
+        {
+            "type": "Material",
+            "id": 2223736991232,
+            "name": "Color_14",
+            "index": 13
+        },
+        {
+            "type": "Material",
+            "id": 2223736988544,
+            "ambient": [
+                62,
+                125,
+                20
+            ],
+            "diffuse": 1.032,
+            "shininess": 0.0,
+            "name": "Color_14",
+            "index": 14
+        },
+        {
+            "type": "Material",
+            "id": 2223736993664,
+            "ambient": [
+                59,
+                49,
+                16
+            ],
+            "diffuse": 1.76271,
+            "shininess": 0.0,
+            "name": "Color_15",
+            "index": 15
+        },
+        {
+            "type": "Material",
+            "id": 2223736990848,
+            "ambient": [
+                137,
+                52,
+                37
+            ],
+            "diffuse": 1.64964,
+            "shininess": 0.0,
+            "name": "Color_16",
+            "index": 16
+        },
+        {
+            "type": "Material",
+            "id": 2223736991744,
+            "ambient": [
+                55,
+                60,
+                14
+            ],
+            "diffuse": 3.0,
+            "shininess": 0.0,
+            "name": "Color_17",
+            "index": 17
+        },
+        {
+            "type": "Material",
+            "id": 2223736991104,
+            "ambient": [
+                30,
+                60,
+                10
+            ],
+            "diffuse": 1.66667,
+            "shininess": 0.0,
+            "name": "Color_18",
+            "index": 18
+        },
+        {
+            "type": "Material",
+            "id": 2223736987520,
+            "name": "Color_20",
+            "index": 19
+        },
+        {
+            "type": "Material",
+            "id": 2223736987264,
+            "ambient": [
+                50,
+                97,
+                23
+            ],
+            "diffuse": 1.0,
+            "shininess": 0.0,
+            "name": "Color_20",
+            "index": 20
+        },
+        {
+            "type": "Material",
+            "id": 2223736988672,
+            "ambient": [
+                162,
+                52,
+                68
+            ],
+            "diffuse": 1.04321,
+            "shininess": 0.0,
+            "name": "Color_21",
+            "index": 21
+        },
+        {
+            "type": "Material",
+            "id": 2223736989184,
+            "ambient": [
+                101,
+                94,
+                11
+            ],
+            "diffuse": 1.65347,
+            "shininess": 0.0,
+            "name": "Color_22",
+            "index": 22
+        },
+        {
+            "type": "Material",
+            "id": 2223736987392,
+            "ambient": [
+                2,
+                2,
+                2
+            ],
+            "diffuse": 0.0,
+            "shininess": 0.0,
+            "name": "Color_23",
+            "index": 23
+        },
+        {
+            "type": "Material",
+            "id": 2223736989312,
+            "name": "Color_25",
+            "index": 24
+        },
+        {
+            "type": "Material",
+            "id": 2223736987648,
+            "ambient": [
+                30,
+                60,
+                10
+            ],
+            "diffuse": 1.66667,
+            "shininess": 0.0,
+            "name": "Color_25",
+            "index": 25
+        },
+        {
+            "type": "Material",
+            "id": 2223736988800,
+            "ambient": [
+                30,
+                60,
+                10
+            ],
+            "diffuse": 1.96667,
+            "shininess": 0.0,
+            "name": "Color_26",
+            "index": 26
+        },
+        {
+            "type": "Material",
+            "id": 2223736989440,
+            "ambient": [
+                39,
+                80,
+                12
+            ],
+            "diffuse": 1.2625,
+            "shininess": 0.0,
+            "name": "Color_27",
+            "index": 27
+        },
+        {
+            "type": "Material",
+            "id": 2223736993408,
+            "ambient": [
+                148,
+                148,
+                0
+            ],
+            "diffuse": 0.810811,
+            "shininess": 0.0,
+            "name": "Color_28",
+            "index": 28
+        },
+        {
+            "type": "Material",
+            "id": 2223736994304,
+            "ambient": [
+                59,
+                49,
+                16
+            ],
+            "diffuse": 1.74576,
+            "shininess": 0.0,
+            "name": "Color_29",
+            "index": 29
+        },
+        {
+            "type": "Material",
+            "id": 2223736989568,
+            "ambient": [
+                2,
+                2,
+                2
+            ],
+            "diffuse": 0.0,
+            "shininess": 0.0,
+            "name": "Color_30",
+            "index": 30
+        },
+        {
+            "type": "Material",
+            "id": 2223736989696,
+            "name": "Color_32",
+            "index": 31
+        },
+        {
+            "type": "Material",
+            "id": 2223736993536,
+            "ambient": [
+                41,
+                82,
+                13
+            ],
+            "diffuse": 1.10976,
+            "shininess": 0.0,
+            "name": "Color_32",
+            "index": 32
+        },
+        {
+            "type": "Material",
+            "id": 2223732045088,
+            "ambient": [
+                107,
+                0,
+                107
+            ],
+            "diffuse": 1.6729,
+            "shininess": 0.0,
+            "name": "Color_33",
+            "index": 33
+        }
+    ],
+    "parameters": [
+        {
+            "name": "GU",
+            "visible": true,
+            "enabled": true,
+            "scalars": [],
+            "items": [
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789518216,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785569808,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.22603304545454544,
+                                -0.18513389732985058,
+                                1.0
+                            ],
+                            [
+                                -0.11296731818181818,
+                                0.5193525655100563,
+                                1.0
+                            ],
+                            [
+                                0.1392562272727273,
+                                -0.2503641246025779,
+                                1.0
+                            ],
+                            [
+                                0.45671,
+                                0.301918466306513,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "axis1",
+                    "is_function": false
+                },
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789520616,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785568272,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.20710350000000002,
+                                0.36018300588150026,
+                                1.0
+                            ],
+                            [
+                                -0.058402200000000015,
+                                -0.29545455,
+                                1.0
+                            ],
+                            [
+                                0.28406139999999996,
+                                0.33314640588150024,
+                                1.0
+                            ],
+                            [
+                                0.491342,
+                                -0.1850551284973145,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "axis2",
+                    "is_function": false
+                },
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789515656,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785569936,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.166667,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                0.166667,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                0.5,
+                                0.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "axis3",
+                    "is_function": false
+                },
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789522056,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785567888,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.158009,
+                                -0.047619,
+                                1.0
+                            ],
+                            [
+                                0.166667,
+                                0.004329,
+                                1.0
+                            ],
+                            [
+                                0.443723,
+                                -0.393939,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "axis4",
+                    "is_function": false
+                },
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789521256,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785567440,
+                        "data": [
+                            [
+                                -0.416733,
+                                0.0128104,
+                                1.0
+                            ],
+                            [
+                                0.2343,
+                                -0.076231,
+                                1.0
+                            ],
+                            [
+                                0.507411,
+                                -0.330906,
+                                1.0
+                            ],
+                            [
+                                0.662132,
+                                -0.814102,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "axis5",
+                    "is_function": false
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731829080,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785570832,
+                        "data": [
+                            [
+                                -0.508209,
+                                0.16873,
+                                1.0
+                            ],
+                            [
+                                -0.515031,
+                                0.138195,
+                                1.0
+                            ],
+                            [
+                                -0.198373,
+                                -0.0924227,
+                                1.0
+                            ],
+                            [
+                                -0.00298323,
+                                0.188761,
+                                1.0
+                            ],
+                            [
+                                0.0897461,
+                                -0.106293,
+                                1.0
+                            ],
+                            [
+                                0.555704,
+                                0.0979703,
+                                1.0
+                            ],
+                            [
+                                0.545047,
+                                0.12817,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "leafsection",
+                    "is_function": false
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731828552,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785567504,
+                        "data": [
+                            [
+                                0.0,
+                                0.0123039,
+                                1.0
+                            ],
+                            [
+                                0.289062,
+                                0.0763736,
+                                1.0
+                            ],
+                            [
+                                0.289062,
+                                0.454469,
+                                1.0
+                            ],
+                            [
+                                0.331839,
+                                0.989763,
+                                1.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "leafwidthgrowth",
+                    "is_function": true
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731826792,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785570064,
+                        "data": [
+                            [
+                                0.0,
+                                0.0846264,
+                                1.0
+                            ],
+                            [
+                                0.12459655194820057,
+                                0.7456015800489945,
+                                1.0
+                            ],
+                            [
+                                0.31229826175689696,
+                                0.9928184804078882,
+                                1.0
+                            ],
+                            [
+                                0.5778275694122315,
+                                1.00197466222607,
+                                1.0
+                            ],
+                            [
+                                0.6236084785031405,
+                                0.22827730732172186,
+                                1.0
+                            ],
+                            [
+                                1.0,
+                                0.00332359,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "leafwidth",
+                    "is_function": true
+                },
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789518536,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785567376,
+                        "data": [
+                            [
+                                -0.543785,
+                                0.192006,
+                                1.0
+                            ],
+                            [
+                                -0.178289,
+                                0.176044,
+                                1.0
+                            ],
+                            [
+                                -0.0656355,
+                                0.0728558,
+                                1.0
+                            ],
+                            [
+                                0.548469,
+                                0.597983,
+                                1.0
+                            ],
+                            [
+                                0.397151,
+                                0.581459,
+                                1.0
+                            ],
+                            [
+                                0.543571,
+                                0.599108,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "petioleCurve",
+                    "is_function": false
+                }
+            ]
+        },
+        {
+            "name": "Inflo",
+            "visible": true,
+            "enabled": true,
+            "scalars": [],
+            "items": [
+                {
+                    "type": "BezierCurve2D",
+                    "id": 2223789520776,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785570128,
+                        "data": [
+                            [
+                                0.00563514,
+                                0.994106,
+                                1.0
+                            ],
+                            [
+                                -0.14865805270244944,
+                                0.6578662336363637,
+                                1.0
+                            ],
+                            [
+                                0.6998395955352784,
+                                0.6217599500000001,
+                                1.0
+                            ],
+                            [
+                                0.680945,
+                                0.239898,
+                                1.0
+                            ],
+                            [
+                                0.509633,
+                                0.00914747,
+                                1.0
+                            ],
+                            [
+                                0.0130125,
+                                0.0011832,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "fruitprofile",
+                    "is_function": false
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731824856,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785569872,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.166667,
+                                -0.168182,
+                                1.0
+                            ],
+                            [
+                                0.143939,
+                                -0.140909,
+                                1.0
+                            ],
+                            [
+                                0.504545,
+                                -0.113636,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "bract_axis",
+                    "is_function": false
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731829256,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785567824,
+                        "data": [
+                            [
+                                -0.5,
+                                0.0,
+                                1.0
+                            ],
+                            [
+                                -0.189394,
+                                -0.159091,
+                                1.0
+                            ],
+                            [
+                                0.221212,
+                                -0.186364,
+                                1.0
+                            ],
+                            [
+                                0.5,
+                                0.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "bract_section",
+                    "is_function": false
+                },
+                {
+                    "type": "NurbsCurve2D",
+                    "id": 2223731831016,
+                    "ctrlPointList": {
+                        "type": "Point3Array",
+                        "id": 2223785568208,
+                        "data": [
+                            [
+                                0.0,
+                                0.141879,
+                                1.0
+                            ],
+                            [
+                                0.0485817,
+                                1.44717,
+                                1.0
+                            ],
+                            [
+                                1.0,
+                                1.11933,
+                                1.0
+                            ],
+                            [
+                                1.0,
+                                0.0236465,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "name": "bract_width",
+                    "is_function": true
+                }
+            ]
+        }
+    ],
+    "credits": {}
+}
