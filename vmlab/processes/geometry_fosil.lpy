@@ -1,0 +1,264 @@
+from math import exp
+import openalea.plantgl.all as pgl
+from openalea.lpy import *
+
+color_cache = {}
+inflo_phyloangles_cache = {}
+
+phyllotaxy = 144.
+branching_angle = 60.
+young_stem_color = 6
+old_stem_color = 5
+leaf_pheno_base_color = 14
+leaf_pheno_colors = list(range(leaf_pheno_base_color, leaf_pheno_base_color + 5))
+leaf_width_length_ratio = 0.24
+leaf_pheno_angles = [0, 90, 165, 60, 60]
+leaf_pheno_angle = pgl.QuantisedFunction(
+    pgl.NurbsCurve2D(pgl.Point3Array(list(enumerate(leaf_pheno_angles)), 1), degree=1)
+)
+inflo_nb_axes_length_ratio = [0.2, 5.]
+inflo_base_color = 20
+inflo_pheno_colors = [c + inflo_base_color for c in [0, 0, 1, 1, 2, 3]]
+flower_base_color = 25
+flower_pheno_colors = list(range(flower_base_color, flower_base_color + 6))
+fruit_pheno_colors = [32, 33]
+fruit_color = 32
+fruit = Revolution(fruitprofile, 8)
+
+
+def inflo_color_interpolator(x, coef):
+    return 1. / (1. + exp(-(x - (0.8 - 0.6 * coef)) / 0.05))
+
+
+def color_interpolator(i, j, r):
+    quantif = (1 / 360)
+    rindex = int(r // quantif)
+    if not (i, j, rindex) in color_cache:
+        mat1 = execContext().turtle.getMaterial(i)
+        mat2 = execContext().turtle.getMaterial(j)
+        imat = Material.interpolate(mat1, mat2, rindex * quantif)
+        color_cache[(i, j, rindex)] = imat
+        return imat
+    return color_cache[(i, j, rindex)]
+
+
+def retrieveCurves(globals):
+    from openalea.plantgl.all import BezierCurve2D
+    # Determine the set of curve representing axis at different time.
+    # Look for object in global namespace name axisX
+    curves = [(n, v) for n, v in list(globals.items()) if 'axis' in n and type(v) == pgl.BezierCurve2D]
+    # sort curves according to their names
+    for n, v in curves:
+        v.name = n
+    curves = [v for n, v in curves]
+    curves.sort(key=lambda x: x.name)
+    return curves
+
+
+def ProfileInterpolation(curves, knotlist=None, degree=3, resolution=10):
+    nbcurves = len(curves)
+    if knotlist is None:
+        knotlist = [i / float(nbcurves - 1) for i in range(nbcurves)]
+    k = [knotlist[0] for i in range(degree - 1)] + knotlist + [knotlist[-1] for i in range(degree - 1)]
+    pts = [[(i.x, i.y, 0, 1) for i in c.ctrlPointList] for c in curves]
+    ppts = Point4Matrix(pts)
+    p = NurbsPatch(ppts, udegree=degree, vdegree=3)
+
+    def getSectionAt(t):
+        section = p.getIsoUSectionAt(t)
+        res = NurbsCurve2D([(i.x, i.y, i.w) for i in section.ctrlPointList], section.knotList, section.degree)
+        res.stride = resolution
+        return res
+    p.getAt = getSectionAt
+    return p
+
+
+class SymbolManager(object):
+    def __init__(self, axiscurves, knotlist, maxstage, section, length, dlength, radius=1, radiusvariation=None):
+        self.axiscurves = axiscurves
+        self.axisfunc = ProfileInterpolation(axiscurves, knotlist)
+        self.maxstage = float(maxstage)
+        self.section = section
+        self.length = length
+        self.dlength = dlength
+        self.radius = radius
+        self.radiusvariation = radiusvariation
+        self.leafsmbdb = dict()
+        self.leafsmbfinal = self.sweepSymbol(axiscurves[-1])
+        self.leafsmbfinal.name = 'finalleaf'
+
+    def sweepSymbol(self, path):
+        from openalea.plantgl.all import PglTurtle
+        t = PglTurtle()
+        t.start()
+        return t.startGC().sweep(path, self.section, self.length, self.dlength, self.radius, self.radiusvariation).stopGC().getScene()[0].geometry
+
+    def __call__(self, nstage=None):
+        if nstage is None:
+            return self.leafsmbfinal
+        nstage = round(nstage, 1)
+        if nstage >= self.maxstage:
+            return self.leafsmbfinal
+        try:
+            return self.leafsmbdb[nstage]
+        except KeyError as e:
+            cleafsmb = self.sweepSymbol(self.axisfunc.getAt(min(nstage / self.maxstage, 1.)))
+            self.leafsmbdb[nstage] = cleafsmb
+            cleafsmb.name = 'leaf_'+str(nstage).replace('.', '_')
+            return cleafsmb
+
+
+leaf_symbol = SymbolManager(
+    retrieveCurves(globals()),
+    [0, 0.1, 0.5, 0.6, 0.7, 0.8],
+    3, leafsection, 1., 1. / 10., leaf_width_length_ratio, leafwidth)
+execContext().turtle.setSurface('finalleaf', leaf_symbol())
+
+
+def plot_gu(
+    gu_stage,
+    length_gu,
+    final_length_gu,
+    radius_gu,
+    final_length_internodes,
+    nb_leaf,
+    length_leaves,
+    final_length_leaves
+):
+    stem_color = color_interpolator(young_stem_color, old_stem_color, min(1., gu_stage / 4.))
+    gu_growth_ratio = length_gu / final_length_gu
+    nsproduce([EndGC(), SetColor(stem_color), StartGC()])
+    nsproduce([SetWidth(radius_gu)])
+    posnorm = 1. / max(1., len(final_length_internodes) - 1.)
+    i_first_leaf = len(final_length_internodes) - nb_leaf
+    for i, final_length_internode, length_leaf, final_length_leaf in zip(range(len(final_length_internodes)), final_length_internodes, length_leaves, final_length_leaves):
+        # internode
+        nsproduce([F(final_length_internode * gu_growth_ratio, radius_gu), RollL(phyllotaxy)])
+        if i >= i_first_leaf:
+            # leaf & petiole
+            radius_petiole = leafwidth(0) * leafwidthgrowth(min(gu_growth_ratio, 1))
+            if gu_stage >= 4.:
+                length_petiole = (1.1 - (i * posnorm)) * final_length_leaf / 4.
+            else:
+                length_petiole = max(0.01, (1 - (i * posnorm)) * final_length_leaf / 4.)
+            nsproduce([SB()])
+            nsproduce([EndGC(), Elasticity(0.), Down(90), f(radius_gu), Up(90)])
+            nsproduce([Down(leaf_pheno_angle(gu_stage)), SetWidth(radius_petiole)])
+            nsproduce([SetWidth(radius_petiole), SetGuide(petioleCurve, length_petiole), F(length_petiole)])
+            nsproduce([RollToVert()])
+            if gu_stage >= 4.:
+                nsproduce([SetColor(leaf_pheno_colors[-1]), surface('finalleaf', final_length_leaf)])
+            else:
+                if gu_stage % 1. > 0:
+                    nsproduce([SetColor(color_interpolator(leaf_pheno_colors[int(gu_stage)], leaf_pheno_colors[int(gu_stage) + 1], gu_stage % 1.))])
+                else:
+                    nsproduce([SetColor(leaf_pheno_colors[int(gu_stage)])])
+                nsproduce([PglShape(leaf_symbol(gu_stage), length_leaf)])
+            nsproduce([EB()])
+    nsproduce([Sphere(radius_gu)])
+
+
+def plot_inflo(
+    idx,
+    inflo_stage,
+    nb_fruit,
+    final_length_inflos,
+    length_inflos,
+    radius_inflo,
+    ripeness_index
+):
+    stage = int(inflo_stage // 1.)
+    rank = inflo_stage % 1.
+    nsproduce([EndGC(), Tropism(0, 0, -1)])
+    for i, final_length_inflo, length_inflo in zip(range(len(length_inflos)), final_length_inflos, length_inflos):
+        if length_inflo > 1e-3:
+            length_inflo = float(length_inflo)
+            final_length_inflo = float(final_length_inflo)
+            nb_axes = int(inflo_nb_axes_length_ratio[0] * final_length_inflo + inflo_nb_axes_length_ratio[1])
+            internode_length = float(length_inflo / nb_axes)
+            if idx in inflo_phyloangles_cache:
+                if i in inflo_phyloangles_cache[idx]:
+                    phyloangles = inflo_phyloangles_cache[idx][i]
+                else:
+                    phyloangles = [(float(60 + process.rng.integers(0, 30)) if (i < nb_axes * 0.136 or i > nb_axes * 0.555) else 220.) for i in range(nb_axes)]
+                    inflo_phyloangles_cache[idx][i] = phyloangles
+            else:
+                inflo_phyloangles_cache[idx] = {}
+                phyloangles = [(float(60 + process.rng.integers(0, 30)) if (i < nb_axes * 0.136 or i > nb_axes * 0.555) else 220.) for i in range(nb_axes)]
+                inflo_phyloangles_cache[idx][i] = phyloangles
+            total_phyloangles = float(sum(phyloangles))
+            nsproduce([RollL(phyllotaxy), SB(), Down(branching_angle)])
+            nsproduce([EndGC(), Tropism(0, 0, -1)])
+            elasticity = 0.05 + 0.4 * ripeness_index
+            if stage >= 4.:
+                if stage == 4.:
+                    nsproduce([SetColor(color_interpolator(inflo_pheno_colors[stage], inflo_pheno_colors[stage + 1], inflo_stage % 1.))])
+                else:
+                    nsproduce([SetColor(inflo_pheno_colors[5])])
+                nsproduce([SetWidth(radius_inflo), nF(length_inflo, internode_length), RollR(total_phyloangles)])
+            else:
+                nsproduce([f(0.3)])
+                nsproduce([SetColor(color_interpolator(inflo_pheno_colors[stage], inflo_pheno_colors[stage + 1], inflo_stage % 1.)), IncWidth(length_inflo / 10), F(length_inflo, 0.1)])
+            nsproduce([Elasticity(elasticity)])
+            if i == 0:
+                if nb_fruit > 0.:
+                    nsproduce([SB(), RollToVert(), F(5 * min(1, ripeness_index)), RollToHorizontal()])
+                    nsproduce([Down(90)])
+                    ep = 10. * ripeness_index
+                    lrg = 10. * ripeness_index
+                    lng = 15. * ripeness_index
+                    nsproduce([SetColor(color_interpolator(fruit_pheno_colors[0], fruit_pheno_colors[1], ripeness_index))])
+                    nsproduce([PglShape(Scaled(ep, lrg, lng, fruit)), EB()])
+            nsproduce([EB()])
+
+
+module GU(idx)
+
+production:
+
+interpretation:
+maximum depth: 10
+
+
+GU(idx):
+    appearance = process.appearance
+    growth = process.growth
+    phenology = process.phenology
+    harvest = process.harvest
+    final_length_internodes = appearance[('appearance', 'final_length_internodes')][idx]
+    final_length_leaves = appearance[('appearance', 'final_length_leaves')][idx]
+    final_length_gu = float(appearance[('appearance', 'final_length_gu')][idx])
+    radius_gu = float(growth[('growth', 'radius_gu')][idx])
+    nb_leaf = float(growth[('growth', 'nb_leaf')][idx])
+    length_leaves = growth[('growth', 'length_leaves')][idx]
+    length_gu = float(growth[('growth', 'length_gu')][idx])
+    gu_stage = float(phenology[('phenology', 'gu_stage')][idx])
+    if length_gu > 1e-3:
+        plot_gu(
+            gu_stage,
+            length_gu,
+            final_length_gu,
+            radius_gu,
+            final_length_internodes,
+            nb_leaf,
+            length_leaves,
+            final_length_leaves
+        )
+    nb_fruit = float(phenology[('phenology', 'nb_fruit')][idx])
+    inflo_stage = float(phenology[('phenology', 'inflo_stage')][idx])
+    final_length_inflos = appearance[('appearance', 'final_length_inflos')][idx]
+    if (inflo_stage > 0. and inflo_stage < 5.) or nb_fruit > 0.:
+        length_inflos = growth[('growth', 'length_inflos')][idx]
+        radius_inflo = float(growth[('growth', 'radius_inflo')][idx])
+        ripeness_index = float(harvest[('harvest', 'ripeness_index')][idx])
+        plot_inflo(
+            idx,
+            inflo_stage,
+            nb_fruit,
+            final_length_inflos,
+            length_inflos,
+            radius_inflo,
+            ripeness_index
+        )
+
+endlsystem
