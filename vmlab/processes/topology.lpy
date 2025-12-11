@@ -14,7 +14,8 @@ def Start():
 
 Axiom:
     nproduce @Tp(0, 0, 1) @Ts(0.02)
-    nproduce SectionResolution(8)
+    nproduce SectionResolution(16)
+    nproduce @Ds(0.02)
     nproduce @Gc
     nproduce GU(0)A(0)
 
