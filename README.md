@@ -5,8 +5,7 @@
     - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jcvl-udg/vmangolab-paleotest/main?urlpath=lab/tree/notebooks/vmango.ipynb)
 ---
 
-La extension **PaleoTest** , esta pensada para realizar modelos paleobotanicos mediante la simulacion de agentes/plantas a traves de 
-modelos inspirados en las tecnicas:
+La extension **PaleoTest** , esta pensada para realizar modelos paleobotanicos mediante la simulacion de agentes/plantas a traves de aproximaciones a las tecnicas:
 - Pariente Vivo más Cercano (PVC)
 - Aproximación Morfológico Estructural (AME)
 
@@ -41,7 +40,7 @@ cientificamente informado para la generacion del modelo.
 
 [Flora and climate of the Olmos Formation (upper Campanian–lower Maastrichtian), Coahuila, Mexico: a preliminary report](https://www.academia.edu/2103322/Flora_and_climate_of_the_Olmos_Formation_upper_Campanian_lower_Maastrichtian_Coahuila_Mexico_a_preliminary_report)
 
-[PaleobotánicaParaentenderlaevoluciónylabiodiversidaden México](https://www.botanicalsciences.com.mx/index.php/botanicalSciences/article/view/3122/4778)
+[Paleobotánica Para entender la evolución y la biodiversidad en México](https://www.botanicalsciences.com.mx/index.php/botanicalSciences/article/view/3122/4778)
 
 ## Installation
 
@@ -131,6 +130,13 @@ V-Mango: a functional–structural model of mango tree growth, development and f
 Annals of Botany, Volume 126, Issue 4, 14 September 2020, Pages 745–763, https://doi.org/10.1093/aob/mcaa089
 ```
 
+
+
+[Revista UNAM CIENCIAS 129-130, JULIO-DICIEMBRE 2018](https://www.revistacienciasunam.com/pt/208-revistas/revista-ciencias-129-130/2154-el-futuro-de-los-bosques-de-encinos-en-m%C3%A9xico-frente-al-cambio-global.html)
+
+"Gran parte de la responsabilidad recae sobre los científicos, quienes debiéramos generar conocimientos relevantes sobre la ecología de éste y otros grupos de organismos para transmitirlos por los canales pertinentes al resto de la sociedad. De otra manera, los tomadores de decisiones no podrán diseñar políticas públicas efectivas en materia de conservación ambiental".
+
+
 [Fossil Plants as Tests of Climate (Albert Charles Seward) - Sedgwick Essay Prize for the Year 1892](https://github.com/manjunath5496/Paleobotany-Books/blob/master/pale(3).pdf)
 
 
@@ -162,3 +168,4 @@ Paleobotany focused guides for segmenting, editing, and animating 3D reconstruct
 
 
 [SYNTHESYS+](https://www.synthesys.info/)
+

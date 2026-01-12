@@ -7,7 +7,7 @@ setup = vmlab.create_setup(
     model=model,
     start_date='2003-06-01',
     end_date='2004-06-01',
-    setup_toml='vmlab/data/setup/vmango.toml',
+    setup_toml='vmlab/data/setup/vmango_fosil.toml',
     output_vars={
         'harvest__nb_fruit_harvested': None
     }
@@ -16,5 +16,5 @@ setup = vmlab.create_setup(
 ds = vmlab.run(
     setup,
     model,
-    batch=('batch', [{'topology__seed': i} for i in range(4)])
+    batch=('batch', [{'topology__seed': i} for i in range(8)])
 )
