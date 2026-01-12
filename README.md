@@ -14,7 +14,7 @@ desde la interfaz de `vmlab` (e.g. `vmlab.create_setup` & `vmlab.run`) , tambien
 
 ![Mango Tree|512x397](doc/img/mango-tree.png)
 
-(en la imagen se aprecia la geometria de la hoja, despues de modificarse "lobular" para imitar al Quercus)
+(en la imagen se aprecia la geometria de la hoja, despues de modificarse "lobular" para imitar al Quercus).
 
 [El README original](https://github.com/jvail/vmango-lab) contiene algunos ejemplos de otras "Funciones de alto nivel"
 y de configuraciones para el modelo se encuentra en el repositorio forkeado.
