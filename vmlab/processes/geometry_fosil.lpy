@@ -5,13 +5,13 @@ from openalea.lpy import *
 color_cache = {}
 inflo_phyloangles_cache = {}
 
-phyllotaxy = 144.
-branching_angle = 60.
+phyllotaxy = 137.
+branching_angle = 70.
 young_stem_color = 6
 old_stem_color = 5
 leaf_pheno_base_color = 14
 leaf_pheno_colors = list(range(leaf_pheno_base_color, leaf_pheno_base_color + 5))
-leaf_width_length_ratio = 0.24
+leaf_width_length_ratio = 0.5
 leaf_pheno_angles = [0, 90, 165, 60, 60]
 leaf_pheno_angle = pgl.QuantisedFunction(
     pgl.NurbsCurve2D(pgl.Point3Array(list(enumerate(leaf_pheno_angles)), 1), degree=1)
@@ -133,7 +133,7 @@ def plot_gu(
     i_first_leaf = len(final_length_internodes) - nb_leaf
     for i, final_length_internode, length_leaf, final_length_leaf in zip(range(len(final_length_internodes)), final_length_internodes, length_leaves, final_length_leaves):
         # internode
-        nsproduce([F(final_length_internode * gu_growth_ratio, radius_gu), RollL(phyllotaxy)])
+        nsproduce([F((final_length_internode/12) * gu_growth_ratio, radius_gu), RollL(phyllotaxy)])
         if i >= i_first_leaf:
             # leaf & petiole
             radius_petiole = leafwidth(0) * leafwidthgrowth(min(gu_growth_ratio, 1))
