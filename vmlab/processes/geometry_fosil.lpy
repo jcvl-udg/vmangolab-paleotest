@@ -11,7 +11,7 @@ young_stem_color = 6
 old_stem_color = 5
 leaf_pheno_base_color = 14
 leaf_pheno_colors = list(range(leaf_pheno_base_color, leaf_pheno_base_color + 5))
-leaf_width_length_ratio = 0.5
+leaf_width_length_ratio = 4
 leaf_pheno_angles = [0, 90, 165, 60, 60]
 leaf_pheno_angle = pgl.QuantisedFunction(
     pgl.NurbsCurve2D(pgl.Point3Array(list(enumerate(leaf_pheno_angles)), 1), degree=1)
@@ -146,6 +146,7 @@ def plot_gu(
             nsproduce([Down(leaf_pheno_angle(gu_stage)), SetWidth(radius_petiole)])
             nsproduce([SetWidth(radius_petiole), SetGuide(petioleCurve, length_petiole), F(length_petiole)])
             nsproduce([RollToVert()])
+            nsproduce([Scale(leaf_width_length_ratio, 1, 1)])
             if gu_stage >= 4.:
                 nsproduce([SetColor(leaf_pheno_colors[-1]), surface('finalleaf', final_length_leaf)])
             else:
