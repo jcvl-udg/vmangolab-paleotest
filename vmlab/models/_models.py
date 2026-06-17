@@ -23,7 +23,6 @@ from ..processes import (
     harvest
 )
 
-
 vmango = xs.Model({
     'environment': environment.Environment,
     'phenology': phenology.Phenology,

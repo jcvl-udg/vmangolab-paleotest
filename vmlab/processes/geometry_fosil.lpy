@@ -5,13 +5,13 @@ from openalea.lpy import *
 color_cache = {}
 inflo_phyloangles_cache = {}
 
-phyllotaxy = 137.
-branching_angle = 70.
+phyllotaxy = 137.5
+branching_angle = 75.0
 young_stem_color = 6
 old_stem_color = 5
 leaf_pheno_base_color = 14
 leaf_pheno_colors = list(range(leaf_pheno_base_color, leaf_pheno_base_color + 5))
-leaf_width_length_ratio = 4
+leaf_width_length_ratio = 1.8
 leaf_pheno_angles = [0, 90, 165, 60, 60]
 leaf_pheno_angle = pgl.QuantisedFunction(
     pgl.NurbsCurve2D(pgl.Point3Array(list(enumerate(leaf_pheno_angles)), 1), degree=1)
@@ -130,12 +130,15 @@ def plot_gu(
     nsproduce([EndGC(), SetColor(stem_color), StartGC()])
     nsproduce([SetWidth(radius_gu)])
     posnorm = 1. / max(1., len(final_length_internodes) - 1.)
-    i_first_leaf = len(final_length_internodes) - nb_leaf
+    i_first_leaf = 0
     for i, final_length_internode, length_leaf, final_length_leaf in zip(range(len(final_length_internodes)), final_length_internodes, length_leaves, final_length_leaves):
         # internode
-        nsproduce([F((final_length_internode/12) * gu_growth_ratio, radius_gu), RollL(phyllotaxy)])
+        nsproduce([F((final_length_internode/12) * gu_growth_ratio, radius_gu), Down(2), RollL(phyllotaxy)])
         if i >= i_first_leaf:
             # leaf & petiole
+            fossil_length_leaf = final_length_leaf * 0.35 
+            fossil_current_length_leaf = length_leaf * 0.35
+            
             radius_petiole = leafwidth(0) * leafwidthgrowth(min(gu_growth_ratio, 1))
             if gu_stage >= 4.:
                 length_petiole = (1.1 - (i * posnorm)) * final_length_leaf / 4.
@@ -148,13 +151,13 @@ def plot_gu(
             nsproduce([RollToVert()])
             nsproduce([Scale(leaf_width_length_ratio, 1, 1)])
             if gu_stage >= 4.:
-                nsproduce([SetColor(leaf_pheno_colors[-1]), surface('finalleaf', final_length_leaf)])
+                nsproduce([SetColor(leaf_pheno_colors[-1]), surface('finalleaf', fossil_length_leaf)])
             else:
                 if gu_stage % 1. > 0:
                     nsproduce([SetColor(color_interpolator(leaf_pheno_colors[int(gu_stage)], leaf_pheno_colors[int(gu_stage) + 1], gu_stage % 1.))])
                 else:
                     nsproduce([SetColor(leaf_pheno_colors[int(gu_stage)])])
-                nsproduce([PglShape(leaf_symbol(gu_stage), length_leaf)])
+                nsproduce([PglShape(leaf_symbol(gu_stage), fossil_current_length_leaf)])
             nsproduce([EB()])
     nsproduce([Sphere(radius_gu)])
 

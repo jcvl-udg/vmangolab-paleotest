@@ -30,23 +30,29 @@ A(idx):
         nb_lateral_children = process.archdev[('arch_dev', 'pot_nb_lateral_children')]
         has_apical_child = process.archdev[('arch_dev', 'pot_has_apical_child')]
         nature = process.archdev[('arch_dev', 'pot_nature')]
-        # idx of first child
+        
         idx_first_child = process.idx_first_child
         nb_children = int(nb_lateral_children[idx] + has_apical_child[idx])
-        if (nb_children - int(has_apical_child[idx])) <= 6:
-            phyllotaxy = default_phyllotaxy
-        else:
-            phyllotaxy = 360. / nb_children
-        # set child idx_first_child process variable values and produce
+        
+        # --- INICIO LÓGICA QUERCUS FÓSIL (Brotación Nueva) ---
+        # Forzamos el ángulo dorado estricto, sin importar cuántos hijos haya
+        phyllotaxy = 137.5 
+        
         for i_child in range(int(nb_children)):
             idx_child = idx_first_child + i_child
-            # apical child must come last
+            
+            # El hijo apical (tronco principal) sigue recto
             if i_child == nb_children - 1 and has_apical_child[idx]:
                 process.is_apical[idx_child] = 1.
                 nsproduce([GU(idx_child), A(idx_child)])
             else:
+                # Los hijos laterales rotan en espiral.
+                # Multiplicamos el ángulo por i_child para que no nazcan empalmados
                 process.is_apical[idx_child] = 0.
-                nsproduce([RollL(phyllotaxy), SB(), Down(branching_angle), GU(idx_child), A(idx_child), EB()])
+                current_angle = phyllotaxy * (i_child + 1)
+                nsproduce([RollL(current_angle), SB(), Down(branching_angle), GU(idx_child), A(idx_child), EB()])
+                
+            # Actualización de grafos (se mantiene igual)
             if process.current_cycle != process.cycle[idx]:
                 process.ancestor[idx_child] = idx
                 process.ancestor_is_apical[idx_child] = process.is_apical[idx]
@@ -58,19 +64,27 @@ A(idx):
             process.adjacency[idx, idx_child] = 1.
             process.parent_is_apical[idx_child] = process.is_apical[idx]
         process.idx_first_child = process.idx_first_child + nb_children
+        # --- FIN LÓGICA QUERCUS FÓSIL ---
+
     else:
+        # --- INICIO LÓGICA QUERCUS FÓSIL (Lectura de Adyacencia Existente) ---
         idx_child_apical = -1.
         children = np.flatnonzero(process.adjacency[idx, :])
-        if (children.shape[0] - int(np.any(process.is_apical[children]))) <= 5:
-            phyllotaxy = default_phyllotaxy
-        else:
-            phyllotaxy = 360. / children.shape[0]
+        
+        phyllotaxy = 137.5 # Ángulo espiral
+        
+        # Necesitamos un contador para saber qué número de rama lateral es esta
+        lateral_counter = 1
+        
         for idx_child in children:
             if process.is_apical[idx_child] == 1.:
                 idx_child_apical = idx_child
             else:
-                nsproduce([RollL(phyllotaxy), SB(), Down(branching_angle), GU(idx_child), A(idx_child), EB()])
+                current_angle = phyllotaxy * lateral_counter
+                nsproduce([RollL(current_angle), SB(), Down(branching_angle), GU(idx_child), A(idx_child), EB()])
+                lateral_counter += 1
+                
         if idx_child_apical >= 0:
             nsproduce([GU(idx_child_apical), A(idx_child_apical)])
-
+            
 endlsystem

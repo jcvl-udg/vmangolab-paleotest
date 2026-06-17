@@ -1,6 +1,6 @@
 title = 'vmango'
 
-initial_tree = '../trees/quercus_sim_data.csv'
+initial_tree = '../trees/dome_quercus_data.csv'
 
 [parameters]
 topology = '../parameters/topology.toml'
